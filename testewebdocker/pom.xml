@@ -38,6 +38,11 @@
       <artifactId>javax.servlet-api</artifactId>
       <version>${servlet.version}</version>
       <scope>provided</scope>
+    </dependency>    
+    <dependency>
+        <groupId>com.spotify</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>1.0.0</version>
     </dependency>
   </dependencies>
   <build>
@@ -50,7 +55,31 @@
           <source>${java.version}</source>
           <target>${java.version}</target>
         </configuration>
-      </plugin>      
+      </plugin>
+      
+      <plugin>
+		  <groupId>com.spotify</groupId>
+		  <artifactId>docker-maven-plugin</artifactId>
+		  <version>1.0.0</version>
+		  <configuration>
+		    <imageName>dockerteste</imageName>
+		    <baseImage>frolvlad/alpine-oraclejdk8:slim</baseImage>
+		    <entryPoint>["java","-jar","oject.build.finalName}.war"]
+		    </entryPoint>
+		    <resources>
+		        <resource>
+		            <targetPath>/</targetPath>
+		            <directory>${project.build.directory}</directory>
+		            <include>${project.build.finalName}.war</include>
+		        </resource>
+		    </resources>
+		    <imageTags>
+		        <imageTag>${project.version}</imageTag>
+		        <imageTag>latest</imageTag>
+		    </imageTags>
+		  </configuration>
+	  </plugin>
+            
     </plugins>
   </build>
   
